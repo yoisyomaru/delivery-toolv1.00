@@ -1,0 +1,55 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #F5F5F7; /* Light theme background */
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    font-size: 24px;
+}
+
+button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#home {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 16px;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.dark-mode {
+    background-color: #1C1C1E;
+    color: white;
+}
+
+.dark-mode .card {
+    background: rgba(44, 44, 46, 0.9);
+}
