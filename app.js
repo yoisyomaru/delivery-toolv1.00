@@ -38,14 +38,14 @@ const themeToggle = document.getElementById("themeToggle");
 if (themeToggle) {
   if (localStorage.getItem("theme") === "dark") {
     document.body.classList.add("dark-mode");
-    themeToggle.textContent = "☀️ ライト";
+    themeToggle.textContent = "☀️ ";
   }
 
   themeToggle.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
     const isDark = document.body.classList.contains("dark-mode");
     localStorage.setItem("theme", isDark ? "dark" : "light");
-    themeToggle.textContent = isDark ? "☀️ ライト" : "🌙 ダーク";
+    themeToggle.textContent = isDark ? "☀️ " : "🌙 ";
   });
 }
 
