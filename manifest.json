@@ -1,20 +1,23 @@
 {
-    "name": "配送ツール Pro",
-    "short_name": "配送ツール",
-    "start_url": "index.html",
-    "display": "standalone",
-    "background_color": "#F5F5F7",
-    "theme_color": "#007AFF",
-    "icons": [
-        {
-            "src": "icons/icon-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "icons/icon-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        }
-    ]
+  "name": "Delivery Tool",
+  "short_name": "Delivery",
+  "description": "サイズ換算・才数換算・NW-7バーコード生成ツール",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f5f7",
+  "theme_color": "#007aff",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
