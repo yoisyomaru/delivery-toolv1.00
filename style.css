@@ -40,14 +40,17 @@ body {
 }
 
 .theme-btn {
-  border: none;
-  background: #007aff;
-  color: white;
-  padding: 12px 22px;
-  border-radius: 16px;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
+    border: none;
+    background: #007aff;
+    color: white;
+    padding: 12px 22px;
+    border-radius: 16px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+
+    white-space: nowrap;
+    min-width: 150px;
 }
 
 .home-screen {
