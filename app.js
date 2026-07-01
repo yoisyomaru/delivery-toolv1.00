@@ -1,7 +1,7 @@
-// Delivery Tool v2.0
+// Delivery Tool Ver.3.1
 
 // =====================
-// 共通
+// 画面切り替え
 // =====================
 const homeCards = document.querySelectorAll(".home-card");
 const tabButtons = document.querySelectorAll(".tab-btn");
@@ -12,22 +12,35 @@ function showPage(targetId) {
   pages.forEach(page => page.classList.remove("active"));
   tabButtons.forEach(btn => btn.classList.remove("active"));
 
-  const target = document.getElementById(targetId);
-  if (target) target.classList.add("active");
+  const targetPage = document.getElementById(targetId);
+  if (targetPage) targetPage.classList.add("active");
 
   tabButtons.forEach(btn => {
-    if (btn.dataset.target === targetId) btn.classList.add("active");
+    if (btn.dataset.target === targetId) {
+      btn.classList.add("active");
+    }
   });
 
-  if (homeScreen) homeScreen.style.display = "none";
+  if (homeScreen) {
+    homeScreen.style.display = "none";
+  }
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 }
 
 homeCards.forEach(card => {
-  card.addEventListener("click", () => showPage(card.dataset.target));
+  card.addEventListener("click", () => {
+    showPage(card.dataset.target);
+  });
 });
 
 tabButtons.forEach(btn => {
-  btn.addEventListener("click", () => showPage(btn.dataset.target));
+  btn.addEventListener("click", () => {
+    showPage(btn.dataset.target);
+  });
 });
 
 // =====================
@@ -38,14 +51,16 @@ const themeToggle = document.getElementById("themeToggle");
 if (themeToggle) {
   if (localStorage.getItem("theme") === "dark") {
     document.body.classList.add("dark-mode");
-    themeToggle.textContent = "☀️ ";
+    themeToggle.textContent = "☀️";
   }
 
   themeToggle.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
+
     const isDark = document.body.classList.contains("dark-mode");
+
     localStorage.setItem("theme", isDark ? "dark" : "light");
-    themeToggle.textContent = isDark ? "☀️ " : "🌙 ";
+    themeToggle.textContent = isDark ? "☀️" : "🌙";
   });
 }
 
@@ -53,18 +68,24 @@ if (themeToggle) {
 // サイズ換算
 // =====================
 const sizeTable = [
-  [70,2],[80,5],[100,10],[120,15],[140,20],[160,30],[170,50],[180,60],
-  [190,70],[200,80],[210,100],[220,110],[230,130],[240,140],[250,160],
-  [260,180],[270,200],[280,230],[290,250],[300,280],[310,310],[320,340],
-  [330,370],[340,410],[350,450],[360,480],[370,530],[380,570],[390,620],
-  [400,660],[410,720],[420,770],[430,830],[440,880],[450,950],[460,1010],
-  [470,1080],[480,1150],[490,1220],[500,1300]
+  [70, 2], [80, 5], [100, 10], [120, 15], [140, 20],
+  [160, 30], [170, 50], [180, 60], [190, 70], [200, 80],
+  [210, 100], [220, 110], [230, 130], [240, 140], [250, 160],
+  [260, 180], [270, 200], [280, 230], [290, 250], [300, 280],
+  [310, 310], [320, 340], [330, 370], [340, 410], [350, 450],
+  [360, 480], [370, 530], [380, 570], [390, 620], [400, 660],
+  [410, 720], [420, 770], [430, 830], [440, 880], [450, 950],
+  [460, 1010], [470, 1080], [480, 1150], [490, 1220], [500, 1300]
 ];
 
 function convertSize(value) {
   if (!value || value <= 0) return "サイズ：0";
+
   const result = sizeTable.find(([size]) => value <= size);
-  return result ? `${result[0]}サイズ（${result[1]}kgまで）` : "対応範囲外です";
+
+  if (!result) return "対応範囲外です";
+
+  return `${result[0]}サイズ（${result[1]}kgまで）`;
 }
 
 const sizeInput = document.getElementById("sizeInput");
@@ -87,10 +108,12 @@ function calcThreeSideSize() {
     Number(sizeWidthInput?.value || 0) +
     Number(sizeDepthInput?.value || 0);
 
+  if (!sizeTotalOutput) return;
+
   sizeTotalOutput.textContent =
     total === 0
-      ? "合計サイズ：0cm ／ サイズ：0"
-      : `合計サイズ：${total}cm ／ ${convertSize(total)}`;
+      ? "三辺合計：0cm ／ サイズ：0"
+      : `三辺合計：${total}cm ／ ${convertSize(total)}`;
 }
 
 [sizeLengthInput, sizeWidthInput, sizeDepthInput].forEach(input => {
@@ -110,6 +133,8 @@ function calcTasu() {
   const l = Number(lengthInput?.value || 0);
   const w = Number(widthInput?.value || 0);
   const h = Number(heightInput?.value || 0);
+
+  if (!volumeOutput || !tasuOutput) return;
 
   if (!l || !w || !h) {
     volumeOutput.textContent = "体積：0㎤";
@@ -145,6 +170,7 @@ const presetList = document.getElementById("presetList");
 const historyList = document.getElementById("historyList");
 const downloadBarcode = document.getElementById("downloadBarcode");
 const fullscreenBarcode = document.getElementById("fullscreenBarcode");
+
 const barcodeModal = document.getElementById("barcodeModal");
 const closeModal = document.getElementById("closeModal");
 const fullscreenSvg = document.getElementById("fullscreenSvg");
@@ -152,10 +178,13 @@ const fullscreenSvg = document.getElementById("fullscreenSvg");
 let presets = JSON.parse(localStorage.getItem("presets")) || [];
 let history = JSON.parse(localStorage.getItem("history")) || [];
 
-// 古いプリセット形式を変換
+// 古い形式のプリセットを新形式へ変換
 presets = presets.map(item => {
   if (typeof item === "string") {
-    return { name: item, code: item };
+    return {
+      name: item,
+      code: item
+    };
   }
   return item;
 });
@@ -165,9 +194,10 @@ function savePresets() {
 }
 
 function saveHistory(code) {
-  history = history.filter(v => v !== code);
+  history = history.filter(item => item !== code);
   history.unshift(code);
   history = history.slice(0, 30);
+
   localStorage.setItem("history", JSON.stringify(history));
   renderHistory();
 }
@@ -194,7 +224,10 @@ function generateBarcode() {
   }
 
   const size = barcodeSizeSlider ? Number(barcodeSizeSlider.value) : 2;
-  if (barcodeSizeValue) barcodeSizeValue.textContent = size;
+
+  if (barcodeSizeValue) {
+    barcodeSizeValue.textContent = size;
+  }
 
   JsBarcode("#barcode", `A${value}A`, {
     format: "codabar",
@@ -233,12 +266,12 @@ function renderPresets() {
 
   presets.forEach((preset, index) => {
     const item = document.createElement("div");
-    item.className = "preset-item";
+    item.className = "preset-item pressable";
 
     const main = document.createElement("div");
     main.className = "preset-main";
     main.innerHTML = `
-      📦 ${preset.name}
+      ${preset.name}
       <div class="preset-code">${preset.code}</div>
     `;
 
@@ -252,6 +285,7 @@ function renderPresets() {
 
     const editBtn = document.createElement("button");
     editBtn.textContent = "編集";
+
     editBtn.addEventListener("click", () => {
       const newName = prompt("プリセット名", preset.name);
       if (newName === null) return;
@@ -277,6 +311,7 @@ function renderPresets() {
 
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "削除";
+
     deleteBtn.addEventListener("click", () => {
       if (confirm(`${preset.name} を削除しますか？`)) {
         presets.splice(index, 1);
@@ -290,6 +325,7 @@ function renderPresets() {
 
     item.appendChild(main);
     item.appendChild(actions);
+
     presetList.appendChild(item);
   });
 }
@@ -309,11 +345,17 @@ if (savePreset) {
       return;
     }
 
-    presets.push({ name, code });
+    presets.push({
+      name,
+      code
+    });
+
     savePresets();
     renderPresets();
 
-    if (presetNameInput) presetNameInput.value = "";
+    if (presetNameInput) {
+      presetNameInput.value = "";
+    }
   });
 }
 
@@ -332,6 +374,7 @@ function renderHistory() {
 
   history.forEach((code, index) => {
     const button = document.createElement("button");
+    button.className = "pressable";
     button.textContent = code;
 
     button.addEventListener("click", () => {
@@ -341,6 +384,7 @@ function renderHistory() {
 
     button.addEventListener("contextmenu", e => {
       e.preventDefault();
+
       if (confirm(`${code} を履歴から削除しますか？`)) {
         history.splice(index, 1);
         localStorage.setItem("history", JSON.stringify(history));
@@ -422,6 +466,8 @@ if (closeModal) {
   });
 }
 
+// =====================
 // 初期描画
+// =====================
 renderPresets();
 renderHistory();

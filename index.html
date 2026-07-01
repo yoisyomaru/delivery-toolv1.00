@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#007AFF" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#4f46e5" />
 
-  <title>Delivery Tool Ver.1.01</title>
+  <title>Delivery Tool Ver.3.1.0</title>
 
   <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
   <link rel="stylesheet" href="style.css" />
 
   <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
@@ -19,48 +19,57 @@
 
     <header class="app-header">
       <div class="brand">
-        <span class="brand-icon">📦</span>
-        <h1>Delivery Tool Ver.1.01</h1>
+        <div class="brand-mark">DT</div>
+        <div>
+          <h1>Delivery Tool</h1>
+          <span class="version-badge">Ver.3.1.0</span>
+        </div>
       </div>
 
-      <button id="themeToggle" class="theme-btn">🌙 </button>
+      <button id="themeToggle" class="theme-btn pressable" aria-label="テーマ切替">🌙</button>
     </header>
 
     <section id="homeScreen" class="home-screen">
-      <h2>機能を選択してください</h2>
+      <div class="hero-card">
+        <span class="eyebrow">DELIVERY WORK ASSISTANT</span>
+        <h2>配送を、もっとスマートに。</h2>
+        <p>サイズ換算・才数換算・NW-7バーコード生成を素早く使える現場向けツール。</p>
+      </div>
 
       <div class="home-grid">
-        <button class="home-card" data-target="sizePage">
-          <div class="home-icon blue">📏</div>
+        <button class="home-card pressable" data-target="sizePage">
+          <span class="home-label">SIZE</span>
           <h3>サイズ換算</h3>
-          <p>配送サイズを計算します</p>
+          <p>三辺合計から配送サイズを計算</p>
+          <span class="card-arrow">→</span>
         </button>
 
-        <button class="home-card" data-target="tasuPage">
-          <div class="home-icon green">📦</div>
+        <button class="home-card pressable" data-target="tasuPage">
+          <span class="home-label">VOLUME</span>
           <h3>才数換算</h3>
-          <p>体積から才数を計算します</p>
+          <p>体積から才数と重量目安を計算</p>
+          <span class="card-arrow">→</span>
         </button>
 
-        <button class="home-card" data-target="barcodePage">
-          <div class="home-icon purple">|||||</div>
+        <button class="home-card pressable" data-target="barcodePage">
+          <span class="home-label">NW-7</span>
           <h3>バーコード生成</h3>
-          <p>NW-7バーコードを生成します</p>
+          <p>4桁入力でNW-7バーコードを生成</p>
+          <span class="card-arrow">→</span>
         </button>
       </div>
     </section>
 
-    <nav class="tab-nav">
-      <button class="tab-btn active" data-target="sizePage">📏 サイズ換算</button>
-      <button class="tab-btn" data-target="tasuPage">📦 才数換算</button>
-      <button class="tab-btn" data-target="barcodePage">||||| バーコード生成</button>
-    </nav>
-
     <main class="content">
 
       <section id="sizePage" class="page active">
+        <div class="section-title">
+          <span>SIZE CALCULATOR</span>
+          <h2>サイズ換算</h2>
+        </div>
+
         <div class="card">
-          <h2>三辺合計</h2>
+          <h3>三辺合計で換算</h3>
           <p class="help">サイズ（cm）の合計を入力してください。</p>
 
           <div class="input-wrap">
@@ -72,30 +81,33 @@
         </div>
 
         <div class="card">
-          <h2>縦・横・奥行き</h2>
-          <p class="help">縦・横・奥行き（cm）を入力してください。</p>
+          <h3>縦・横・奥行きで換算</h3>
+          <p class="help">3つの値を入力すると三辺合計を自動計算します。</p>
 
           <div class="three-inputs">
-            <input id="sizeLengthInput" type="number" inputmode="numeric" placeholder="縦（cm）" />
-            <input id="sizeWidthInput" type="number" inputmode="numeric" placeholder="横（cm）" />
-            <input id="sizeDepthInput" type="number" inputmode="numeric" placeholder="奥行き（cm）" />
+            <input id="sizeLengthInput" type="number" inputmode="numeric" placeholder="縦" />
+            <input id="sizeWidthInput" type="number" inputmode="numeric" placeholder="横" />
+            <input id="sizeDepthInput" type="number" inputmode="numeric" placeholder="奥行き" />
           </div>
 
-          <div id="sizeTotalOutput" class="result-box">
-            合計サイズ：0cm ／ サイズ：0
-          </div>
+          <div id="sizeTotalOutput" class="result-box">三辺合計：0cm ／ サイズ：0</div>
         </div>
       </section>
 
       <section id="tasuPage" class="page">
-        <div class="card">
+        <div class="section-title">
+          <span>VOLUME CALCULATOR</span>
           <h2>才数換算</h2>
+        </div>
+
+        <div class="card">
+          <h3>体積から才数を計算</h3>
           <p class="help">縦・横・高さ（cm）を入力してください。</p>
 
           <div class="three-inputs">
-            <input id="lengthInput" type="number" inputmode="numeric" placeholder="縦（cm）" />
-            <input id="widthInput" type="number" inputmode="numeric" placeholder="横（cm）" />
-            <input id="heightInput" type="number" inputmode="numeric" placeholder="高さ（cm）" />
+            <input id="lengthInput" type="number" inputmode="numeric" placeholder="縦" />
+            <input id="widthInput" type="number" inputmode="numeric" placeholder="横" />
+            <input id="heightInput" type="number" inputmode="numeric" placeholder="高さ" />
           </div>
 
           <div id="volumeOutput" class="result-box">体積：0㎤</div>
@@ -104,62 +116,77 @@
       </section>
 
       <section id="barcodePage" class="page">
+        <div class="section-title">
+          <span>NW-7 BARCODE</span>
+          <h2>バーコード生成</h2>
+        </div>
+
         <div class="card">
-          <h2>NW-7バーコード生成</h2>
-          <p class="help">数字のみ入力してください。</p>
+          <h3>4桁バーコード</h3>
+          <p class="help">数字のみ入力してください。Aは自動で前後に付きます。</p>
           <p class="notice">※必ず4桁で入力（例：5㎏→0005）</p>
 
-          <div class="slider-area">
-  <label for="barcodeSizeSlider">
-    バーコードの大きさ：<span id="barcodeSizeValue">2</span>
-  </label>
-  <input
-    id="barcodeSizeSlider"
-    type="range"
-    min="1"
-    max="5"
-    step="1"
-    value="2"
-  />
-</div>
-
           <input id="barcodeInput" type="number" inputmode="numeric" placeholder="例：0005" />
+
+          <div class="slider-area">
+            <label for="barcodeSizeSlider">
+              バーコードの大きさ：<span id="barcodeSizeValue">2</span>
+            </label>
+            <input id="barcodeSizeSlider" type="range" min="1" max="5" step="1" value="2" />
+          </div>
 
           <div class="barcode-area">
             <svg id="barcode"></svg>
           </div>
-<input id="presetNameInput" type="text" placeholder="プリセット名（例：5kg）" />
-          <button id="savePreset" class="primary-btn">⭐ プリセット登録</button>
-<button id="downloadBarcode" class="primary-btn secondary-btn">
-  💾 PNG保存
-</button>
-<button id="fullscreenBarcode" class="primary-btn secondary-btn">
-  ⛶ 全画面表示
-</button>
+
+          <input id="presetNameInput" type="text" placeholder="プリセット名（例：5kg）" />
+
+          <button id="savePreset" class="primary-btn pressable">⭐ プリセット登録</button>
+          <button id="downloadBarcode" class="secondary-btn pressable">💾 PNG保存</button>
+          <button id="fullscreenBarcode" class="secondary-btn pressable">⛶ 全画面表示</button>
+
           <h3 class="sub-title">プリセット</h3>
           <div id="presetList" class="preset-list"></div>
-          <h3 class="sub-title">履歴</h3>
 
-<div id="historyList" class="history-list"></div>
+          <h3 class="sub-title">履歴</h3>
+          <div id="historyList" class="history-list"></div>
         </div>
       </section>
 
     </main>
 
+    <nav class="tab-nav bottom-nav">
+      <button class="tab-btn active pressable" data-target="sizePage">
+        <span>SIZE</span>
+        サイズ
+      </button>
+      <button class="tab-btn pressable" data-target="tasuPage">
+        <span>VOLUME</span>
+        才数
+      </button>
+      <button class="tab-btn pressable" data-target="barcodePage">
+        <span>NW-7</span>
+        バーコード
+      </button>
+    </nav>
+
   </div>
-<div id="barcodeModal" class="barcode-modal">
-  <button id="closeModal" class="close-modal">×</button>
-  <div class="modal-content">
-    <svg id="fullscreenSvg"></svg>
+
+  <div id="barcodeModal" class="barcode-modal">
+    <button id="closeModal" class="close-modal pressable">×</button>
+    <div class="modal-content">
+      <svg id="fullscreenSvg"></svg>
+    </div>
   </div>
-</div>
+
   <script src="app.js"></script>
+
   <script>
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("./service-worker.js");
-    });
-  }
-</script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js");
+      });
+    }
+  </script>
 </body>
 </html>
